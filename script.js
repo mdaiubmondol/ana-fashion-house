@@ -16,6 +16,14 @@ function loadProducts(list = products) {
                 <h3>${product.name}</h3>
 
                 <p>৳ ${product.price}</p>
+				
+				<button
+				class="wishlist-btn"
+				onclick="toggleWishlist(${product.id})">
+
+				❤️ Wishlist
+
+				</button>
 
                 <button
                     class="product-btn"
@@ -208,6 +216,23 @@ function removeItem(id){
 
 }
 
+function toggleWishlist(id){
+
+    const exists = wishlist.includes(id);
+
+    if(exists){
+
+        wishlist = wishlist.filter(item => item !== id);
+
+    }else{
+
+        wishlist.push(id);
+
+    }
+
+    localStorage.setItem("wishlist", JSON.stringify(wishlist));
+
+}
 updateCart();
 
 const searchInput = document.getElementById("search-input");
@@ -267,4 +292,4 @@ filterButtons.forEach(button => {
 
 });
 
-                            
+let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
