@@ -1,17 +1,44 @@
 
 <!DOCTYPE html>
 <html lang="en">
+<link rel="canonical" href="https://mdaiubmondol.github.io/ana-fashion-house/">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ana Fashion House</title>
 
-	<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- SEO -->
+    <title>Ana Fashion House | Premium Women's Fashion in Bangladesh</title>
 
+    <meta name="description" content="Ana Fashion House - Premium quality Three Piece, Kurti, Abaya and Women's Fashion in Bangladesh. Order online with fast delivery and trusted service.">
+
+    <meta name="keywords" content="Ana Fashion House, Bangladesh Fashion, Three Piece, Kurti, Abaya, Women's Fashion, Online Shopping Bangladesh, Ladies Dress">
+
+    <meta name="author" content="Md Aiub Mondol">
+
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph (Facebook) -->
+    <meta property="og:title" content="Ana Fashion House">
+    <meta property="og:description" content="Premium Women's Fashion in Bangladesh">
+    <meta property="og:image" content="images/banner.png">
+    <meta property="og:type" content="website">
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#0B0B0B">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/icon.png">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
 
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 	<a href="https://wa.me/8801889418203"
 	   class="floating-whatsapp"
@@ -22,7 +49,7 @@
 
 <header>
 
-    <img src="images/logo.png" alt="Ana Fashion House Logo" class="logo">
+    <img src="images/logo.png" alt="Ana Fashion House logo" class="logo">
 
     <h1>ANA FASHION HOUSE</h1>
 
@@ -34,6 +61,13 @@
 			<a href="#about">About</a>
 			<a href="#contact">Contact</a>
 		</nav>
+		<div class="cart-box">
+
+		ðŸ›’ Cart
+
+		<span id="cart-count">0</span>
+
+		</div>
 </header>
 
 
@@ -61,78 +95,30 @@
 
     <h2>Featured Collection</h2>
 
-    <div class="product-grid">
+    <div class="search-box">
 
-        <div class="product-card">
-            <img src="images/threepiece.jpg" alt="Premium Three Piece">
-
-            <h3>Premium Three Piece</h3>
-
-            <p>? 1,850</p>
-
-            <a href="https://wa.me/8801889418203"
-               target="_blank"
-               class="product-btn">
-               Order Now
-            </a>
-        </div>
-
-        <div class="product-card">
-            <img src="images/kurti.jpg" alt="Elegant Kurti">
-
-            <h3>Elegant Kurti</h3>
-
-            <p>? 1,250</p>
-
-            <a href="https://wa.me/8801889418203"
-               target="_blank"
-               class="product-btn">
-               Order Now
-            </a>
-        </div>
-
-        <div class="product-card">
-            <img src="images/abaya.jpg" alt="Stylish Abaya">
-
-            <h3>Stylish Abaya</h3>
-
-            <p>? 2,450</p>
-
-            <a href="https://wa.me/8801889418203"
-               target="_blank"
-               class="product-btn">
-               Order Now
-            </a>
-        </div>
-		<div class="product-card">
-			<img src="images/product4.jpg" alt="Luxury Gown">
-
-			<h3>Luxury Gown</h3>
-
-			<p>? 2,990</p>
-
-			<a href="https://wa.me/8801889418203"
-			   target="_blank"
-			   class="product-btn">
-			   Order Now
-			</a>
-		</div>
-				<div class="product-card">
-			<img src="images/product5.jpg" alt="lehenga">
-
-			<h3>lehenga</h3>
-
-			<p>? 2,990</p>
-
-			<a href="https://wa.me/8801889418203"
-			   target="_blank"
-			   class="product-btn">
-			   Order Now
-			</a>
-		</div>
-
+        <input
+            type="text"
+            id="search-input"
+            placeholder="?? Search products...">
 
     </div>
+
+    <div class="filter-buttons">
+
+        <button class="filter-btn active" data-category="All">All</button>
+
+        <button class="filter-btn" data-category="Three Piece">Three Piece</button>
+
+        <button class="filter-btn" data-category="Kurti">Kurti</button>
+
+        <button class="filter-btn" data-category="Abaya">Abaya</button>
+
+        <button class="filter-btn" data-category="Gown">Gown</button>
+
+    </div>
+
+    <div id="product-list" class="product-grid"></div>
 
 </section>
 
@@ -178,6 +164,36 @@
     <p>&copy; 2026 Ana Fashion House. All Rights Reserved.</p>
 
 </footer>
+
+<!-- Shopping Cart Sidebar -->
+
+<div class="cart-sidebar" id="cart-sidebar">
+
+    <div class="cart-header">
+        <h2>Shopping Cart</h2>
+        <span id="close-cart">&times;</span>
+    </div>
+
+    <div id="cart-items">
+
+        <p class="empty-cart">Your cart is empty.</p>
+
+    </div>
+
+    <div class="cart-footer">
+
+        <h3>Total: à§³ <span id="cart-total">0</span></h3>
+
+        <button class="checkout-btn">
+            Checkout
+        </button>
+
+    </div>
+
+</div>
+
+<script src="products.js"></script>
+<script src="script.js"></script>
 
 </body>
 </html>
