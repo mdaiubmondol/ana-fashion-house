@@ -18,7 +18,7 @@ function loadProducts(list = products) {
                 <p>৳ ${product.price}</p>
 				
 				<button
-				class="wishlist-btn"
+				class="wishlist-btn ${wishlist.includes(product.id) ? 'active' : ''}"
 				onclick="toggleWishlist(${product.id})">
 
 				❤️ Wishlist
@@ -42,6 +42,8 @@ function loadProducts(list = products) {
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
 function addToCart(id) {
 
     const existingItem = cart.find(item => item.id === id);
@@ -60,14 +62,14 @@ function addToCart(id) {
     }
 
     saveCart();
-    updateCart();
+	updateCart();
+	showToast();
 
-    if (cartSidebar) {
-        cartSidebar.classList.add("active");
-    }
+	if (cartSidebar) {
+		cartSidebar.classList.add("active");
+	}
 
 }
-
 loadProducts();
 
 // ======================
@@ -216,6 +218,20 @@ function removeItem(id){
 
 }
 
+function showToast(){
+
+    const toast = document.getElementById("toast");
+
+    if(!toast) return;
+
+    toast.classList.add("show");
+
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 2000);
+
+}
+
 function toggleWishlist(id){
 
     const exists = wishlist.includes(id);
@@ -230,9 +246,12 @@ function toggleWishlist(id){
 
     }
 
-    localStorage.setItem("wishlist", JSON.stringify(wishlist));
+	localStorage.setItem("wishlist", JSON.stringify(wishlist));
 
-}
+	loadProducts();
+
+	}
+	
 updateCart();
 
 const searchInput = document.getElementById("search-input");
@@ -291,5 +310,3 @@ filterButtons.forEach(button => {
     });
 
 });
-
-let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
