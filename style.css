@@ -961,3 +961,35 @@ width:100%;
     background: #ff2d55;
     color: #fff;
 }
+
+.checkout-btn{
+
+    width: 100%;
+
+    padding: 14px;
+
+    margin-top: 15px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #25D366;
+
+    color: #fff;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .3s;
+
+}
+
+.checkout-btn:hover{
+
+    background: #1da851;
+
+}
