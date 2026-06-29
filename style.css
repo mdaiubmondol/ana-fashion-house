@@ -319,39 +319,66 @@ footer p{
 
 #backToTop{
 
-    position:fixed;
+    position: fixed;
 
-    bottom:20px;
+    bottom: 25px;
 
-    right:20px;
+    right: 25px;
 
-    width:50px;
+    width: 55px;
 
-    height:50px;
+    height: 55px;
 
-    border:none;
+    border: none;
 
-    border-radius:50%;
+    border-radius: 50%;
 
-    background:#D4AF37;
+    background: #ff2d55;
 
-    color:#000;
+    color: #fff;
 
-    cursor:pointer;
+    font-size: 22px;
 
-    font-size:20px;
+    cursor: pointer;
 
-    box-shadow:0 5px 15px rgba(0,0,0,.3);
+    display: flex;
 
-    transition:.3s;
+    align-items: center;
+
+    justify-content: center;
+
+    box-shadow: 0 8px 20px rgba(0,0,0,.25);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transform: translateY(20px);
+
+    transition: .3s;
+
+    z-index: 9999;
+
+}
+
+#backToTop.show{
+
+    opacity: 1;
+
+    visibility: visible;
+
+    transform: translateY(0);
 
 }
 
 #backToTop:hover{
 
-    transform:translateY(-5px);
+    background: #000;
+
+    transform: scale(1.08);
 
 }
+
 
 .floating-whatsapp{
     position:fixed;
