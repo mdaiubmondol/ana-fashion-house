@@ -24,7 +24,15 @@ function loadProducts(list = products) {
 				❤️ Wishlist
 
 				</button>
+				
+				<button
+				class="product-btn"
+				onclick="openQuickView(${product.id})">
 
+				👁️ Quick View
+
+				</button>
+				
                 <button
                     class="product-btn"
                     onclick="addToCart(${product.id})">
@@ -339,3 +347,139 @@ if (backToTop) {
     });
 
 }
+
+const checkoutBtn = document.getElementById("checkout-btn");
+
+if (checkoutBtn) {
+
+    checkoutBtn.addEventListener("click", () => {
+
+      if (cart.length === 0) {
+
+			alert("Your cart is empty!");
+
+		return;
+
+		}
+
+		const customerName = document.getElementById("customer-name").value.trim();
+
+		const customerPhone = document.getElementById("customer-phone").value.trim();
+
+		const customerAddress = document.getElementById("customer-address").value.trim();
+
+		if (!customerName || !customerPhone || !customerAddress) {
+
+			alert("Please fill in your Name, Phone Number and Address.");
+
+			return;
+
+		}
+
+		let message =
+		"*Ana Fashion House Order*%0A%0A" +
+		"Customer Information%0A" +
+		"------------------------%0A" +
+		"Name: " + customerName + "%0A" +
+		"Phone: " + customerPhone + "%0A" +
+		"Address: " + customerAddress + "%0A%0A" +
+		"Order Details%0A" +
+		"------------------------%0A";
+        let total = 0;
+
+        cart.forEach(item => {
+
+            const product = products.find(p => p.id === item.id);
+
+            if (!product) return;
+
+            const subtotal = product.price * item.quantity;
+
+            total += subtotal;
+
+            message += `• ${product.name} x${item.quantity} = ৳${subtotal}%0A`;
+
+        });
+
+        message +=
+		"%0A------------------------%0A" +
+		"Total: ৳" + total +
+		"%0A%0AThank you for shopping with Ana Fashion House.";
+
+        window.open(
+            `https://wa.me/8801889418203?text=${message}`,
+            "_blank"
+        );
+		cart = [];
+
+		saveCart();
+
+		updateCart();
+
+		document.getElementById("customer-name").value = "";
+
+		document.getElementById("customer-phone").value = "";
+
+		document.getElementById("customer-address").value = "";
+
+    });
+
+}
+// ======================
+// Quick View Modal
+// ======================
+
+const modal = document.getElementById("quick-view-modal");
+const closeModal = document.getElementById("close-modal");
+
+function openQuickView(id){
+
+    const product = products.find(p => p.id === id);
+
+    if(!product) return;
+
+    document.getElementById("modal-image").src = product.image;
+    document.getElementById("modal-image").alt = product.name;
+
+    document.getElementById("modal-name").innerText = product.name;
+
+    document.getElementById("modal-price").innerText =
+        "৳ " + product.price;
+
+    document.getElementById("modal-category").innerText =
+        "Category: " + product.category;
+
+    document.getElementById("modal-description").innerText =
+        product.description || "Premium quality fashion product.";
+
+    document.getElementById("modal-cart-btn").onclick = function(){
+
+        addToCart(product.id);
+
+        modal.classList.remove("active");
+
+    };
+
+    modal.classList.add("active");
+
+}
+
+if(closeModal){
+
+    closeModal.addEventListener("click", function(){
+
+        modal.classList.remove("active");
+
+    });
+
+}
+
+window.addEventListener("click", function(e){
+
+    if(e.target === modal){
+
+        modal.classList.remove("active");
+
+    }
+
+});
