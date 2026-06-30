@@ -16,12 +16,12 @@ function loadProducts(list = products) {
                 <h3>${product.name}</h3>
 
                 <p>৳ ${product.price}</p>
-				
+							
 				<button
 				class="wishlist-btn ${wishlist.includes(product.id) ? 'active' : ''}"
 				onclick="toggleWishlist(${product.id})">
 
-				❤️ Wishlist
+				<i class="fa-solid fa-heart"></i>
 
 				</button>
 				
