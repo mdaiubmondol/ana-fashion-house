@@ -232,12 +232,56 @@
     </div>
 
     <div class="cart-footer">
+	<div class="customer-form">
+
+		<input
+			type="text"
+			id="customer-name"
+			placeholder="Your Name">
+
+		<input
+			type="tel"
+			id="customer-phone"
+			placeholder="Phone Number">
+
+		<textarea
+			id="customer-address"
+			placeholder="Delivery Address"></textarea>
+
+	</div>
 	<h3>Total: &#2547; <span id="cart-total">0</span></h3>
 
 	<button id="checkout-btn" class="checkout-btn">
 		<i class="fa-brands fa-whatsapp"></i>
 		Order on WhatsApp
 	</button>
+    </div>
+
+</div>
+
+
+<!-- Quick View Modal -->
+
+<div id="quick-view-modal" class="quick-view-modal">
+
+    <div class="quick-view-content">
+
+        <span id="close-modal">&times;</span>
+
+        <img id="modal-image" src="" alt="">
+
+        <h2 id="modal-name"></h2>
+
+        <p id="modal-price"></p>
+
+        <p id="modal-category"></p>
+
+        <p id="modal-description"></p>
+
+        <button id="modal-cart-btn" class="product-btn">
+            Add to Cart
+        </button>
+
     </div>
 
 </div>
