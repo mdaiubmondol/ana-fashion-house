@@ -1,57 +1,211 @@
 const productContainer = document.getElementById("product-list");
+// ======================
+// Product Image Helpers
+// ======================
 
-function loadProducts(list = products) {
+function getProductImage(product){
 
-    if (!productContainer) return;
+    if(product.images && product.images.length){
 
-    productContainer.innerHTML = "";
+        return product.images[0];
 
-    list.forEach(product => {
+    }
 
-        productContainer.innerHTML += `
-            <div class="product-card">
-
-                <img src="${product.image}" alt="${product.name}">
-
-                <h3>${product.name}</h3>
-
-                <p>৳ ${product.price}</p>
-							
-				<button
-				class="wishlist-btn ${wishlist.includes(product.id) ? 'active' : ''}"
-				onclick="toggleWishlist(${product.id})">
-
-				<i class="fa-solid fa-heart"></i>
-
-				</button>
-				
-				<button
-				class="product-btn"
-				onclick="openQuickView(${product.id})">
-
-				👁️ Quick View
-
-				</button>
-				
-                <button
-                    class="product-btn"
-                    onclick="addToCart(${product.id})">
-
-                    Add to Cart
-
-                </button>
-
-            </div>
-        `;
-
-    });
+    return product.image || "images/no-image.png";
 
 }
+
+function getProductImages(product){
+
+    if(product.images && product.images.length){
+
+        return product.images;
+
+    }
+
+    if(product.image){
+
+        return [product.image];
+
+    }
+
+    return ["images/no-image.png"];
+
+}
+function hasMultipleImages(product){
+
+    return product.images && product.images.length > 1;
+
+}
+
+// ======================
+// Discount Helpers
+// ======================
+
+function getDiscount(product){
+
+    if(!product.oldPrice) return 0;
+
+    return Math.round(
+        ((product.oldPrice - product.price) / product.oldPrice) * 100
+    );
+
+}
+
+function getSaleBadge(product){
+
+    if(!product.sale) return "";
+
+    const discount = getDiscount(product);
+
+    return `
+
+        <div class="sale-badge">
+
+            ${
+                discount >= 30
+                ? `⚡ ${discount}% OFF`
+                : discount >= 20
+                ? `🔥 ${discount}% OFF`
+                : `💎 ${discount}% OFF`
+            }
+
+        </div>
+
+    `;
+
+}
+
+// ======================
+// Rating Helper
+// ======================
+
+function getRating(product){
+
+    return `
+
+        <p class="rating">
+
+            <span class="stars">
+
+                <span
+                    class="stars-fill"
+                    style="width:${(product.rating / 5) * 100}%">
+
+                    ★★★★★
+
+                </span>
+
+                ★★★★★
+
+            </span>
+
+            <span class="rating-text">
+
+                ${product.rating} | ${product.reviews} Reviews
+
+            </span>
+
+        </p>
+
+    `;
+
+}
+
+// ======================
+// Price Helper
+// ======================
+
+function getPrice(product){
+
+    return `
+
+        <p class="price">
+
+            ${product.oldPrice
+                ? `<span class="old-price">৳ ${product.oldPrice}</span>`
+                : ""}
+
+            <span class="new-price">
+
+                ৳ ${product.price}
+
+            </span>
+
+        </p>
+
+    `;
+
+}
+
+// ======================
+// Cart & Wishlist
+// ======================
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
 
+// ======================
+// Create Product Card
+// ======================
+
+
+function createProductCard(product){
+
+    return `
+
+        <div class="product-card">
+
+           ${getSaleBadge(product)}
+
+            <img src="${getProductImage(product)}" alt="${product.name}">
+
+            <h3>${product.name}</h3>
+
+            
+
+            ${getRating(product)}
+
+            <button
+                class="wishlist-btn ${wishlist.includes(product.id) ? 'active' : ''}"
+                onclick="toggleWishlist(${product.id})">
+
+                <i class="fa-solid fa-heart"></i>
+
+            </button>
+
+            <button
+                class="product-btn"
+                onclick="openQuickView(${product.id})">
+
+                👁️ Quick View
+
+            </button>
+
+            <button
+                class="product-btn"
+                onclick="addToCart(${product.id})">
+
+                Add to Cart
+
+            </button>
+
+        </div>
+
+    `;
+
+} 
+
+function loadProducts(list = products){
+
+    if(!productContainer) return;
+
+    productContainer.innerHTML = list
+        .map(product => createProductCard(product))
+        .join("");
+
+}
 function addToCart(id) {
 
     const existingItem = cart.find(item => item.id === id);
@@ -135,8 +289,10 @@ function updateCart(){
 
         <div class="cart-item">
 
-            <img src="${product.image}" alt="${product.name}">
-
+            <img
+				src="${getProductImage(product)}"
+				alt="${product.name}">
+				
             <div class="cart-info">
 
                 <h4>${product.name}</h4>
@@ -437,32 +593,303 @@ function openQuickView(id){
     const product = products.find(p => p.id === id);
 
     if(!product) return;
+	
+	const productImages = getProductImages(product);
+	
 
-    document.getElementById("modal-image").src = product.image;
-    document.getElementById("modal-image").alt = product.name;
+    // ======================
+    // Main Product Image
+    // ======================
 
-    document.getElementById("modal-name").innerText = product.name;
+    const modalImage = document.getElementById("modal-image");
 
-    document.getElementById("modal-price").innerText =
-        "৳ " + product.price;
+    modalImage.src = productImages[0];
+    modalImage.alt = product.name;
+
+
+    // ======================
+    // Image Thumbnails
+    // ======================
+
+    const thumbnailContainer =
+        document.getElementById("image-thumbnails");
+
+    thumbnailContainer.innerHTML = "";
+
+	productImages.forEach((image, index) => {
+        const thumbnail = document.createElement("img");
+
+        thumbnail.src = image;
+        thumbnail.alt = product.name;
+
+        thumbnail.classList.add("image-thumbnail");
+
+        if(index === 0){
+
+            thumbnail.classList.add("active");
+
+        }
+
+        thumbnail.onclick = function(){
+
+            modalImage.src = image;
+
+            document
+                .querySelectorAll(".image-thumbnail")
+                .forEach(img => {
+
+                    img.classList.remove("active");
+
+                });
+
+            thumbnail.classList.add("active");
+
+        };
+
+        thumbnailContainer.appendChild(thumbnail);
+
+    });
+
+
+    // ======================
+    // Product Name
+    // ======================
+
+    document.getElementById("modal-name").innerText =
+        product.name;
+
+
+    // ======================
+    // Price
+    // ======================
+
+    document.getElementById("modal-price").innerHTML =
+
+        product.oldPrice
+
+        ?
+
+        `
+        <span class="old-price">
+            ৳ ${product.oldPrice}
+        </span>
+
+        <span class="new-price">
+            ৳ ${product.price}
+        </span>
+        `
+
+        :
+
+        `
+        <span class="new-price">
+            ৳ ${product.price}
+        </span>
+        `;
+
+
+    // ======================
+    // Category
+    // ======================
 
     document.getElementById("modal-category").innerText =
         "Category: " + product.category;
 
+
+    // ======================
+    // Rating
+    // ======================
+
+    document.getElementById("modal-rating").innerHTML = `
+
+        <div class="rating">
+
+            <span class="stars">
+
+                <span
+                    class="stars-fill"
+                    style="width:${(product.rating / 5) * 100}%">
+
+                    ★★★★★
+
+                </span>
+
+                ★★★★★
+
+            </span>
+
+            <span class="rating-text">
+
+                ${product.rating}
+                (${product.reviews} Reviews)
+
+            </span>
+
+        </div>
+
+        <p class="trusted">
+
+            ✔ Trusted by 128+ Happy Customers
+
+        </p>
+
+    `;
+
+
+    // ======================
+    // Discount
+    // ======================
+
+    const discount = product.oldPrice
+
+        ?
+
+        Math.round(
+            ((product.oldPrice - product.price)
+            / product.oldPrice) * 100
+        )
+
+        : 0;
+
+
+    document.getElementById("modal-discount").innerHTML =
+
+        product.sale
+
+        ?
+
+        `<span class="discount-badge">
+
+            ${
+                discount >= 30
+
+                ? `⚡ ${discount}% OFF`
+
+                : discount >= 20
+
+                ? `🔥 ${discount}% OFF`
+
+                : `💎 ${discount}% OFF`
+            }
+
+        </span>`
+
+        : "";
+
+
+    // ======================
+    // Stock
+    // ======================
+
+    document.getElementById("modal-stock").innerHTML =
+        "🟢 In Stock";
+
+
+    // ======================
+    // Description
+    // ======================
+
     document.getElementById("modal-description").innerText =
-        product.description || "Premium quality fashion product.";
+        product.description ||
+        "Premium quality fashion product.";
 
-    document.getElementById("modal-cart-btn").onclick = function(){
 
-        addToCart(product.id);
+    // ======================
+    // Add To Cart
+    // ======================
 
-        modal.classList.remove("active");
+    document.getElementById("modal-cart-btn").onclick =
+        function(){
 
-    };
+            addToCart(product.id);
+
+            modal.classList.remove("active");
+
+            document.getElementById(
+                "related-products-list"
+            ).innerHTML = "";
+
+        };
+
+
+    // ======================
+    // Related Products
+    // ======================
+
+    const relatedContainer =
+        document.getElementById(
+            "related-products-list"
+        );
+
+
+    const relatedProducts = products
+
+        .filter(p => p.id !== product.id)
+
+        .slice(0, 6);
+
+
+    relatedContainer.innerHTML = "";
+
+
+    relatedProducts.forEach(item => {
+
+        relatedContainer.innerHTML += `
+
+            <div
+                class="related-card"
+                onclick="openQuickView(${item.id})">
+
+                <img
+					src="${getProductImage(item)}"
+					alt="${item.name}">
+
+                <h4>
+                    ${item.name}
+                </h4>
+
+                <p>
+                    ৳ ${item.price}
+                </p>
+
+            </div>
+
+        `;
+
+    });
+
+
+    // ======================
+    // Open Modal
+    // ======================
 
     modal.classList.add("active");
 
 }
+
+// ======================
+// Close Modal
+// ======================
+
+closeModal.onclick = function(){
+
+    modal.classList.remove("active");
+
+    document.getElementById("related-products-list").innerHTML = "";
+
+};
+
+window.onclick = function(e){
+
+    if(e.target === modal){
+
+        modal.classList.remove("active");
+
+        document.getElementById("related-products-list").innerHTML = "";
+
+    }
+
+};
 
 if(closeModal){
 
