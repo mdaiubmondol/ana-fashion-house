@@ -3,49 +3,82 @@ const products = [
     id: 1,
     name: "Premium Three Piece",
     price: 1850,
-    image: "images/threepiece.jpg",
-    category: "Three Piece"
+	oldPrice: 2200,
+	images: [
+    "images/threepiece1.jpg",
+    "images/threepiece2.jpg",
+    "images/threepiece3.jpg",
+    "images/threepiece4.jpg"
+],
+    category: "Three Piece",
+	rating: 4.7,
+	reviews: 128,
+	sale: true,
   },
   {
     id: 2,
     name: "Elegant Kurti",
     price: 1250,
+	oldPrice: 1400,
     image: "images/kurti.jpg",
-    category: "Kurti"
+    category: "Kurti",
+	rating: 4.8,
+	reviews: 128,
+	sale: false,
   },
   {
     id: 3,
     name: "Stylish Abaya",
     price: 2450,
+	oldPrice: 2850,
     image: "images/abaya.jpg",
-    category: "Abaya"
+    category: "Abaya",
+	rating: 4.5,
+	reviews: 128,
+	sale: true,
   },
   {
     id: 4,
     name: "Elegant Gown",
     price: 3200,
+	oldPrice: 3500,
     image: "images/gown.jpg",
-    category: "Gown"
+    category: "Gown",
+	rating: 4.7,
+	reviews: 128,
+	sale: false,
   },
   {
     id: 5,
     name: "Premium Collection",
     price: 2100,
+	oldPrice: 2200,
     image: "images/product4.jpg",
-    category: "Collection"
+    category: "Collection",
+	rating: 4.8,
+	reviews: 128,
+	sale: false,
   },
   {
     id: 6,
     name: "Luxury Dress",
     price: 2750,
+	oldPrice: 2950,
     image: "images/product5.jpg",
-    category: "Dress"
+    category: "Dress",
+	rating: 3.9,
+	reviews: 128,
+	sale: true,
   },
   {
     id: 7,
     name: "Exclusive Fashion",
     price: 3500,
+	oldPrice: 3700,
     image: "images/product6.jpg",
-    category: "Fashion"
+    category: "Fashion",
+	rating: 4.6,
+	reviews: 128,
+	sale: false,
   }
 ];
