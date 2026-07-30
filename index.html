@@ -43,11 +43,12 @@
 
 </head>
 
+	 	
+<body>
 	<div id="toast">
 		<i class="fa-solid fa-circle-check"></i>
 		Product added to cart!
-	</div> 	
-<body>
+	</div>
 	
 	<a href="https://wa.me/8801889418203"
 	   class="floating-whatsapp"
@@ -56,151 +57,193 @@
 	</a>
 	
 <header>
+
+    <!-- Left Side -->
+    <div class="header-left">
+
+        <img src="images/logo.png"
+             alt="Ana Fashion House Logo"
+             class="logo">
+
+        <div class="header-center">
+
+            <h1>ANA FASHION HOUSE</h1>
+
+            <p>Where Fashion Meets Confidence</p>
+
+        </div>
+
+    </div>
+
+    <!-- Right Side -->
 	
-	<div class="cart-box">
+    <div class="header-right">
 
-    <i class="fa-solid fa-cart-shopping"></i>
+        
 
-    Cart
+        <nav>
 
-    <span id="cart-count">0</span>
+            <a href="#home">
+                <i class="fa-solid fa-house"></i>
+                Home
+            </a>
 
+            <a href="#shop">
+                <i class="fa-solid fa-store"></i>
+                Shop
+            </a>
+
+            <a href="#about">
+                <i class="fa-solid fa-circle-info"></i>
+                About
+            </a>
+
+            <a href="#contact">
+                <i class="fa-solid fa-phone"></i>
+                Contact
+            </a>
+
+        </nav>
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="search-input"
+                placeholder="Search products...">
+
+        </div>
+
+        <div class="filter-buttons">
+
+            <button class="filter-btn active" data-category="All">All</button>
+
+            <button class="filter-btn" data-category="Three Piece">Three Piece</button>
+
+            <button class="filter-btn" data-category="Kurti">Kurti</button>
+
+            <button class="filter-btn" data-category="Abaya">Abaya</button>
+
+            <button class="filter-btn" data-category="Gown">Gown</button>
+
+        </div>
+
+    </div>
+	<div class="header-right-1">
+		<div class="header-actions">
+
+            <div class="cart-box">
+                <i class="fa-solid fa-cart-shopping"></i>
+                Cart
+                <span id="cart-count">0</span>
+            </div>
+
+            <a href="wishlist.html" class="wishlist-page-btn">
+                <i class="fa-solid fa-heart"></i>
+            </a>
+
+        </div>
 	</div>
-
-	<a href="wishlist.html" class="wishlist-page-btn">
-    <i class="fa-solid fa-heart"></i>
-	</a>
-
-    <img src="images/logo.png" alt="Ana Fashion House logo" class="logo">
-
-    <h1>ANA FASHION HOUSE</h1>
-
-    <p>Where Fashion Meets Confidence</p>
-		
-		<nav>
-			<a href="#home"><i class="fa-solid fa-house"></i> Home</a>
-
-			<a href="#shop"><i class="fa-solid fa-store"></i> Shop</a>
-
-			<a href="#about"><i class="fa-solid fa-circle-info"></i> About</a>
-
-			<a href="#contact"><i class="fa-solid fa-phone"></i> Contact</a>
-		</nav>
 </header>
 
+<div class="container">
 
-<section class="hero" id="home">
-    <img src="images/banner.png" alt="Ana Fashion House Banner">
-</section>
 
-<section class="features">
+	<section class="hero" id="home">
+		<img src="images/banner.png" alt="Ana Fashion House Banner">
+	</section>
+
+	<section class="features">
 
     <div class="card">
+        <i class="fa-solid fa-gem"></i>
         <h3>Premium Quality</h3>
     </div>
 
     <div class="card">
+        <i class="fa-solid fa-truck-fast"></i>
         <h3>Fast Delivery</h3>
     </div>
 
     <div class="card">
+        <i class="fa-solid fa-shield-heart"></i>
         <h3>Trusted Service</h3>
     </div>
 
-</section>
+	</section>
 
-<section class="products" id="shop">
+	<section class="products" id="shop">
 
-    <h2>Featured Collection</h2>
+		<h2>Featured Collection</h2>
 
-    <div class="search-box">
+		
 
-        <input
-            type="text"
-            id="search-input"
-            placeholder="Search products...">
+		<div id="product-list" class="product-grid"></div>
 
-    </div>
+	</section>
 
-    <div class="filter-buttons">
+	<section class="about" id="about">
 
-        <button class="filter-btn active" data-category="All">All</button>
+		<h2>About Ana Fashion House</h2>
 
-        <button class="filter-btn" data-category="Three Piece">Three Piece</button>
+		<p>
+			Ana Fashion House is a trusted online fashion brand in Bangladesh,
+			bringing elegant, trendy and premium quality fashion for women.
+			Our goal is to deliver style, confidence and satisfaction to every customer.
+		</p>
 
-        <button class="filter-btn" data-category="Kurti">Kurti</button>
+	</section>
 
-        <button class="filter-btn" data-category="Abaya">Abaya</button>
+	<section class="contact" id="contact">
 
-        <button class="filter-btn" data-category="Gown">Gown</button>
+		<h2>Contact Us</h2>
 
-    </div>
+		<p>
+			<a href="https://wa.me/8801889418203"
+			   target="_blank"
+			   rel="noopener noreferrer">
 
-    <div id="product-list" class="product-grid"></div>
+				<i class="fab fa-whatsapp"></i>
+				WhatsApp
 
-</section>
+			</a>
+		</p>
 
-<section class="about" id="about">
+		<p>
+			<a href="https://facebook.com/anafashionhouseBD"
+			   target="_blank"
+			   rel="noopener noreferrer">
 
-    <h2>About Ana Fashion House</h2>
+				<i class="fab fa-facebook"></i>
+				Facebook
 
-    <p>
-        Ana Fashion House is a trusted online fashion brand in Bangladesh,
-        bringing elegant, trendy and premium quality fashion for women.
-        Our goal is to deliver style, confidence and satisfaction to every customer.
-    </p>
+			</a>
+		</p>
 
-</section>
+		<p>
+			<a href="https://instagram.com/anafashionhouseBD"
+			   target="_blank"
+			   rel="noopener noreferrer">
 
-<section class="contact" id="contact">
+				<i class="fab fa-instagram"></i>
+				Instagram
 
-    <h2>Contact Us</h2>
+			</a>
+		</p>
 
-    <p>
-        <a href="https://wa.me/8801889418203"
-           target="_blank"
-           rel="noopener noreferrer">
+		<p>
+			<a href="https://tiktok.com/@anafashionhouseBD"
+			   target="_blank"
+			   rel="noopener noreferrer">
 
-            <i class="fab fa-whatsapp"></i>
-            WhatsApp
+				<i class="fab fa-tiktok"></i>
+				TikTok
 
-        </a>
-    </p>
+			</a>
+		</p>
 
-    <p>
-        <a href="https://facebook.com/anafashionhouseBD"
-           target="_blank"
-           rel="noopener noreferrer">
-
-            <i class="fab fa-facebook"></i>
-            Facebook
-
-        </a>
-    </p>
-
-    <p>
-        <a href="https://instagram.com/anafashionhouseBD"
-           target="_blank"
-           rel="noopener noreferrer">
-
-            <i class="fab fa-instagram"></i>
-            Instagram
-
-        </a>
-    </p>
-
-    <p>
-        <a href="https://tiktok.com/@anafashionhouseBD"
-           target="_blank"
-           rel="noopener noreferrer">
-
-            <i class="fab fa-tiktok"></i>
-            TikTok
-
-        </a>
-    </p>
-
-</section>
+	</section>
+</div>
 
 <button id="backToTop">
 
@@ -276,25 +319,41 @@
         <span id="close-modal">&times;</span>
 
         <img id="modal-image" src="" alt="">
+		
+		<div class="image-thumbnails" id="image-thumbnails"></div>
 
         <h2 id="modal-name"></h2>
 
         <p id="modal-price"></p>
 
-        <p id="modal-category"></p>
+		<p id="modal-discount"></p>
 
-        <p id="modal-description"></p>
+		<p id="modal-category"></p>
+
+		<p id="modal-rating"></p>
+
+		<p id="modal-stock"></p>
+
+		<p id="modal-description"></p>
 
         <button id="modal-cart-btn" class="product-btn">
             Add to Cart
         </button>
+		<hr>
 
+		<div class="related-products">
+
+			<h3>You May Also Like</h3>
+
+			<div id="related-products-list" class="related-slider"></div>
+
+		</div>
     </div>
 
 </div>
 
 <script src="products.js"></script>
 <script src="script.js"></script>
-
+</div>
 </body>
 </html>
