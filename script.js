@@ -518,8 +518,8 @@ if (cartSidebar && cartButton && closeCart) {
 let discount = 0;
 
 const coupons = {
-    AFH100: 100,
-    EID500: 500,
+    AIUB100: 100,
+    MONDOL500: 500,
     WELCOME50: 50
 };
 
