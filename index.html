@@ -267,12 +267,14 @@
 </footer>
 
 <!-- Shopping Cart Sidebar -->
-
 <div class="cart-sidebar" id="cart-sidebar">
 
     <div class="cart-header">
+
         <h2>Shopping Cart</h2>
+
         <span id="close-cart">&times;</span>
+
     </div>
 
     <div id="cart-items">
@@ -282,33 +284,128 @@
     </div>
 
     <div class="cart-footer">
-	<div class="customer-form">
 
-		<input
-			type="text"
-			id="customer-name"
-			placeholder="Your Name">
+        <div class="customer-form">
 
-		<input
-			type="tel"
-			id="customer-phone"
-			placeholder="Phone Number">
+            <input
+                type="text"
+                id="customer-name"
+                placeholder="Your Name">
 
-		<textarea
-			id="customer-address"
-			placeholder="Delivery Address"></textarea>
+            <input
+                type="tel"
+                id="customer-phone"
+                placeholder="Phone Number">
 
-	</div>
-	<h3>Total: &#2547; <span id="cart-total">0</span></h3>
+            <textarea
+                id="customer-address"
+                placeholder="Delivery Address"></textarea>
 
-	<button id="checkout-btn" class="checkout-btn">
-		<i class="fa-brands fa-whatsapp"></i>
-		Order on WhatsApp
-	</button>
+        </div>
+
+		<!-- Order Summary -->
+
+		<div class="order-summary">
+
+			<h3>
+				<i class="fa-solid fa-box-open"></i>
+				Order Summary
+			</h3>
+
+			<div class="summary-row">
+
+				<span>Subtotal</span>
+
+				<span>
+					<span class="currency"></span>
+					<span id="cart-subtotal">0</span>
+				</span>
+
+			</div>
+
+			<div class="summary-row">
+
+				<span>Delivery Charge</span>
+
+				<span>
+					<span class="currency"></span>
+					<span id="delivery-charge">120</span>
+				</span>
+
+			</div>
+			<div class="coupon-box">
+
+				<input
+					type="text"
+					id="coupon-code"
+					placeholder="Enter Coupon Code">
+
+				<button
+					id="apply-coupon">
+
+					Apply
+
+				</button>
+
+			</div>
+
+			<p id="coupon-message"></p>
+
+			<div class="summary-row">
+
+				<span>Discount</span>
+
+				<span>
+
+					<span class="currency"></span>
+
+					<span id="discount-amount">0</span>
+
+				</span>
+
+			</div>
+
+			<hr>
+
+			<div class="summary-row total-row">
+
+				<strong>Total</strong>
+
+				<strong>
+					<span class="currency"></span>
+					<span id="cart-total">120</span>
+				</strong>
+
+			</div>
+
+			<p class="delivery-info">
+
+				<i class="fa-solid fa-truck-fast"></i>
+
+				Delivery within 2-4 Days
+
+			</p>
+
+			<p class="secure-order">
+
+				<i class="fa-solid fa-shield-halved"></i>
+
+				Safe & Secure Order
+
+			</p>
+
+		</div>
+        <button id="checkout-btn" class="checkout-btn">
+
+            <i class="fa-brands fa-whatsapp"></i>
+
+            Order on WhatsApp
+
+        </button>
+
     </div>
 
 </div>
-
 
 <!-- Quick View Modal -->
 
