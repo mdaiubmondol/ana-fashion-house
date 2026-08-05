@@ -32,9 +32,189 @@ function getProductImages(product){
     return ["images/no-image.png"];
 
 }
+
+// ======================
+// Modal Image Helper
+// ======================
+
+function setModalImages(product){
+
+    const productImages = getProductImages(product);
+
+    const modalImage = document.getElementById("modal-image");
+
+    const thumbnailContainer =
+        document.getElementById("image-thumbnails");
+
+    modalImage.src = productImages[0];
+    modalImage.alt = product.name;
+
+    thumbnailContainer.innerHTML = "";
+
+    productImages.forEach((image, index) => {
+
+        const thumbnail = document.createElement("img");
+
+        thumbnail.src = image;
+        thumbnail.alt = product.name;
+
+        thumbnail.classList.add("image-thumbnail");
+
+        if(index === 0){
+
+            thumbnail.classList.add("active");
+
+        }
+
+        thumbnail.onclick = function(){
+
+            modalImage.src = image;
+
+            document
+                .querySelectorAll(".image-thumbnail")
+                .forEach(img => img.classList.remove("active"));
+
+            thumbnail.classList.add("active");
+
+        };
+
+        thumbnailContainer.appendChild(thumbnail);
+
+    });
+
+}
+
+// ======================
+// Modal Name Helper
+// ======================
+
+function setModalName(product){
+
+    document.getElementById("modal-name").innerText =
+        product.name;
+
+}
+// ======================
+// Modal Price Helper
+// ======================
+
+function setModalPrice(product){
+
+    document.getElementById("modal-price").innerHTML =
+
+        product.oldPrice
+
+        ?
+
+        `
+        <span class="old-price">
+            ৳ ${product.oldPrice}
+        </span>
+
+        <span class="new-price">
+            ৳ ${product.price}
+        </span>
+        `
+
+        :
+
+        `
+        <span class="new-price">
+            ৳ ${product.price}
+        </span>
+        `;
+
+}
+
+// ======================
+// Modal Category Helper
+// ======================
+
+function setModalCategory(product){
+
+    document.getElementById("modal-category").innerText =
+        "Category: " + product.category;
+
+}
+// ======================
+// Modal Rating Helper
+// ======================
+
+function setModalRating(product){
+
+    document.getElementById("modal-rating").innerHTML = `
+
+        <div class="rating">
+
+            <span class="stars">
+
+                <span
+                    class="stars-fill"
+                    style="width:${(product.rating / 5) * 100}%">
+
+                    ★★★★★
+
+                </span>
+
+                ★★★★★
+
+            </span>
+
+            <span class="rating-text">
+
+                ${product.rating}
+                (${product.reviews} Reviews)
+
+            </span>
+
+        </div>
+
+        <p class="trusted">
+
+            ✔ Trusted by 128+ Happy Customers
+
+        </p>
+
+    `;
+
+}
+
 function hasMultipleImages(product){
 
     return product.images && product.images.length > 1;
+
+}
+// ======================
+// Modal Discount Helper
+// ======================
+
+function setModalDiscount(product){
+
+    const discount = getDiscount(product);
+
+    document.getElementById("modal-discount").innerHTML =
+
+        product.sale
+
+        ?
+
+        `<span class="discount-badge">
+
+            ${
+                discount >= 30
+
+                ? `⚡ ${discount}% OFF`
+
+                : discount >= 20
+
+                ? `🔥 ${discount}% OFF`
+
+                : `💎 ${discount}% OFF`
+            }
+
+        </span>`
+
+        : "";
 
 }
 
@@ -49,6 +229,84 @@ function getDiscount(product){
     return Math.round(
         ((product.oldPrice - product.price) / product.oldPrice) * 100
     );
+
+}
+// ======================
+// Modal Stock Helper
+// ======================
+
+function setModalStock(product){
+
+    document.getElementById("modal-stock").innerHTML =
+        "🟢 In Stock";
+
+}
+// ======================
+// Modal Description Helper
+// ======================
+
+function setModalDescription(product){
+
+    document.getElementById("modal-description").innerText =
+
+        product.description ||
+
+        "Premium quality fashion product.";
+
+}
+// ======================
+// Modal Cart Button Helper
+// ======================
+
+function setupCartButton(product){
+
+    document.getElementById("modal-cart-btn").onclick = function(){
+
+        addToCart(product.id);
+
+        modal.classList.remove("active");
+
+        document.getElementById("related-products-list").innerHTML = "";
+
+    };
+
+}
+// ======================
+// Related Products Helper
+// ======================
+
+function loadRelatedProducts(product){
+
+    const relatedContainer =
+        document.getElementById("related-products-list");
+
+    const relatedProducts = products
+        .filter(p => p.id !== product.id)
+        .slice(0, 6);
+
+    relatedContainer.innerHTML = "";
+
+    relatedProducts.forEach(item => {
+
+        relatedContainer.innerHTML += `
+
+            <div
+                class="related-card"
+                onclick="openQuickView(${item.id})">
+
+                <img
+                    src="${getProductImage(item)}"
+                    alt="${item.name}">
+
+                <h4>${item.name}</h4>
+
+                <p>৳ ${item.price}</p>
+
+            </div>
+
+        `;
+
+    });
 
 }
 
@@ -163,9 +421,9 @@ function createProductCard(product){
 
             <h3>${product.name}</h3>
 
-            
+			${getPrice(product)}
 
-            ${getRating(product)}
+			${getRating(product)}
 
             <button
                 class="wishlist-btn ${wishlist.includes(product.id) ? 'active' : ''}"
@@ -253,8 +511,23 @@ if (cartSidebar && cartButton && closeCart) {
     });
 
 }
+// ======================
+// Coupon System
+// ======================
 
-function updateCart(){
+let discount = 0;
+
+const coupons = {
+    AFH100: 100,
+    EID500: 500,
+    WELCOME50: 50
+};
+
+// ======================
+// Update Cart
+// ======================
+
+function updateCart() {
 
     const cartItems = document.getElementById("cart-items");
     const total = document.getElementById("cart-total");
@@ -265,10 +538,15 @@ function updateCart(){
     let totalPrice = 0;
     let totalQuantity = 0;
 
-    if(cart.length === 0){
+    // Empty Cart
+    if (cart.length === 0) {
 
         cartItems.innerHTML =
-        '<p class="empty-cart">Your cart is empty.</p>';
+            '<p class="empty-cart">Your cart is empty.</p>';
+
+        document.getElementById("cart-subtotal").innerText = "0";
+        document.getElementById("delivery-charge").innerText = "0";
+        document.getElementById("discount-amount").innerText = "0";
 
         total.innerText = "0";
         cartCount.innerText = "0";
@@ -276,11 +554,12 @@ function updateCart(){
         return;
     }
 
+    // Cart Items
     cart.forEach(item => {
 
         const product = products.find(p => p.id === item.id);
 
-        if(!product) return;
+        if (!product) return;
 
         totalPrice += product.price * item.quantity;
         totalQuantity += item.quantity;
@@ -290,9 +569,9 @@ function updateCart(){
         <div class="cart-item">
 
             <img
-				src="${getProductImage(product)}"
-				alt="${product.name}">
-				
+                src="${getProductImage(product)}"
+                alt="${product.name}">
+
             <div class="cart-info">
 
                 <h4>${product.name}</h4>
@@ -309,7 +588,8 @@ function updateCart(){
 
                 </div>
 
-                <button class="remove-btn"
+                <button
+                    class="remove-btn"
                     onclick="removeItem(${product.id})">
 
                     Remove
@@ -324,12 +604,66 @@ function updateCart(){
 
     });
 
-    total.innerText = totalPrice;
+    // ======================
+    // Order Summary
+    // ======================
+
+    const deliveryCharge = totalQuantity > 0 ? 120 : 0;
+
+    document.getElementById("cart-subtotal").innerText = totalPrice;
+    document.getElementById("delivery-charge").innerText = deliveryCharge;
+    document.getElementById("discount-amount").innerText = discount;
+
+    const finalTotal = Math.max(
+        totalPrice + deliveryCharge - discount,
+        0
+    );
+
+    total.innerText = finalTotal;
     cartCount.innerText = totalQuantity;
 
 }
 
+// ======================
+// Apply Coupon
+// ======================
 
+const applyBtn = document.getElementById("apply-coupon");
+
+if (applyBtn) {
+
+    applyBtn.addEventListener("click", function () {
+
+        const code = document
+            .getElementById("coupon-code")
+            .value
+            .trim()
+            .toUpperCase();
+
+        const message =
+            document.getElementById("coupon-message");
+
+        if (coupons[code]) {
+
+            discount = coupons[code];
+
+            message.innerHTML = "✅ Coupon Applied Successfully";
+            message.style.color = "#4CAF50";
+
+        } else {
+
+            discount = 0;
+
+            message.innerHTML = "❌ Invalid Coupon Code";
+            message.style.color = "#ff5252";
+
+        }
+
+        updateCart();
+
+    });
+
+}
 function saveCart(){
 
     localStorage.setItem("cart", JSON.stringify(cart));
@@ -594,270 +928,25 @@ function openQuickView(id){
 
     if(!product) return;
 	
-	const productImages = getProductImages(product);
+	setModalImages(product);
 	
-
-    // ======================
-    // Main Product Image
-    // ======================
-
-    const modalImage = document.getElementById("modal-image");
-
-    modalImage.src = productImages[0];
-    modalImage.alt = product.name;
-
-
-    // ======================
-    // Image Thumbnails
-    // ======================
-
-    const thumbnailContainer =
-        document.getElementById("image-thumbnails");
-
-    thumbnailContainer.innerHTML = "";
-
-	productImages.forEach((image, index) => {
-        const thumbnail = document.createElement("img");
-
-        thumbnail.src = image;
-        thumbnail.alt = product.name;
-
-        thumbnail.classList.add("image-thumbnail");
-
-        if(index === 0){
-
-            thumbnail.classList.add("active");
-
-        }
-
-        thumbnail.onclick = function(){
-
-            modalImage.src = image;
-
-            document
-                .querySelectorAll(".image-thumbnail")
-                .forEach(img => {
-
-                    img.classList.remove("active");
-
-                });
-
-            thumbnail.classList.add("active");
-
-        };
-
-        thumbnailContainer.appendChild(thumbnail);
-
-    });
-
-
-    // ======================
-    // Product Name
-    // ======================
-
-    document.getElementById("modal-name").innerText =
-        product.name;
-
-
-    // ======================
-    // Price
-    // ======================
-
-    document.getElementById("modal-price").innerHTML =
-
-        product.oldPrice
-
-        ?
-
-        `
-        <span class="old-price">
-            ৳ ${product.oldPrice}
-        </span>
-
-        <span class="new-price">
-            ৳ ${product.price}
-        </span>
-        `
-
-        :
-
-        `
-        <span class="new-price">
-            ৳ ${product.price}
-        </span>
-        `;
-
-
-    // ======================
-    // Category
-    // ======================
-
-    document.getElementById("modal-category").innerText =
-        "Category: " + product.category;
-
-
-    // ======================
-    // Rating
-    // ======================
-
-    document.getElementById("modal-rating").innerHTML = `
-
-        <div class="rating">
-
-            <span class="stars">
-
-                <span
-                    class="stars-fill"
-                    style="width:${(product.rating / 5) * 100}%">
-
-                    ★★★★★
-
-                </span>
-
-                ★★★★★
-
-            </span>
-
-            <span class="rating-text">
-
-                ${product.rating}
-                (${product.reviews} Reviews)
-
-            </span>
-
-        </div>
-
-        <p class="trusted">
-
-            ✔ Trusted by 128+ Happy Customers
-
-        </p>
-
-    `;
-
-
-    // ======================
-    // Discount
-    // ======================
-
-    const discount = product.oldPrice
-
-        ?
-
-        Math.round(
-            ((product.oldPrice - product.price)
-            / product.oldPrice) * 100
-        )
-
-        : 0;
-
-
-    document.getElementById("modal-discount").innerHTML =
-
-        product.sale
-
-        ?
-
-        `<span class="discount-badge">
-
-            ${
-                discount >= 30
-
-                ? `⚡ ${discount}% OFF`
-
-                : discount >= 20
-
-                ? `🔥 ${discount}% OFF`
-
-                : `💎 ${discount}% OFF`
-            }
-
-        </span>`
-
-        : "";
-
-
-    // ======================
-    // Stock
-    // ======================
-
-    document.getElementById("modal-stock").innerHTML =
-        "🟢 In Stock";
-
-
-    // ======================
-    // Description
-    // ======================
-
-    document.getElementById("modal-description").innerText =
-        product.description ||
-        "Premium quality fashion product.";
-
-
-    // ======================
-    // Add To Cart
-    // ======================
-
-    document.getElementById("modal-cart-btn").onclick =
-        function(){
-
-            addToCart(product.id);
-
-            modal.classList.remove("active");
-
-            document.getElementById(
-                "related-products-list"
-            ).innerHTML = "";
-
-        };
-
-
-    // ======================
-    // Related Products
-    // ======================
-
-    const relatedContainer =
-        document.getElementById(
-            "related-products-list"
-        );
-
-
-    const relatedProducts = products
-
-        .filter(p => p.id !== product.id)
-
-        .slice(0, 6);
-
-
-    relatedContainer.innerHTML = "";
-
-
-    relatedProducts.forEach(item => {
-
-        relatedContainer.innerHTML += `
-
-            <div
-                class="related-card"
-                onclick="openQuickView(${item.id})">
-
-                <img
-					src="${getProductImage(item)}"
-					alt="${item.name}">
-
-                <h4>
-                    ${item.name}
-                </h4>
-
-                <p>
-                    ৳ ${item.price}
-                </p>
-
-            </div>
-
-        `;
-
-    });
-
+	setModalName(product);
+	
+	setModalPrice(product);
+	
+	setModalCategory(product);
+    
+	setModalRating(product);
+
+	setModalDiscount(product);
+
+	setModalStock(product);
+	
+	setModalDescription(product);
+	
+	setupCartButton(product);
+
+	loadRelatedProducts(product);
 
     // ======================
     // Open Modal
